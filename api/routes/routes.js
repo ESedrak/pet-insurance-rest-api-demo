@@ -33,6 +33,22 @@ routes.route("/pets").get(async function (_req, res) {
 		});
 });
 
+routes.route("/pets/dogs").get(async function (_req, res) {
+	let dogs = [];
+	dbo
+		.getDb()
+		.collection("pets")
+		.find({ type: "dog" })
+		.sort({ risk: 1 })
+		.forEach((dog) => dogs.push(dog))
+		.then(() => {
+			res.status(200).json(dogs);
+		})
+		.catch(() => {
+			res.status(500).json({ error: "Something's wrong" });
+		});
+});
+
 // Health check endpoint
 // Endpoint to call to ensure your API is up and healthy
 // Can use a service to call this and report the health of your API using CI
