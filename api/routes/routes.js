@@ -33,19 +33,19 @@ routes.route("/pets").get(async function (_req, res) {
 		});
 });
 
-routes.route("/pets/dogs").get(async function (_req, res) {
-	let dogs = [];
+routes.route("/pets/:type").get(async function (_req, res) {
+	let types = [];
 	dbo
 		.getDb()
 		.collection("pets")
-		.find({ type: "dog" })
+		.find({ type: _req.params.type })
 		.sort({ risk: 1 })
-		.forEach((dog) => dogs.push(dog))
+		.forEach((type) => types.push(type))
 		.then(() => {
-			res.status(200).json(dogs);
+			res.status(200).json(types);
 		})
 		.catch(() => {
-			res.status(500).json({ error: "Something's wrong" });
+			res.status(500).json({ error: "Something's wrong!" });
 		});
 });
 
