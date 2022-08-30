@@ -49,19 +49,6 @@ routes.route("/pets/:type").get(async function (_req, res) {
 		});
 });
 
-routes.route("/pets/:breed").get(async function (_req, res) {
-	dbo
-		.getDb()
-		.collection("pets")
-		.findOne({ breed: _req.params.breed })
-		.then(() => {
-			res.status(200).json(types);
-		})
-		.catch(() => {
-			res.status(500).json({ error: "Something's wrong!" });
-		});
-});
-
 // Health check endpoint
 // Endpoint to call to ensure your API is up and healthy
 // Can use a service to call this and report the health of your API using CI
